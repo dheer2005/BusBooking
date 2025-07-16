@@ -1,0 +1,100 @@
+<div class="container my-5">
+  <div class="card border-0 shadow rounded-4 p-4 p-md-5">
+    <h3 class="mb-4 text-center text-primary fw-bold">
+      <i class="fas fa-receipt me-2"></i>Checkout Summary
+    </h3>
+
+    <div class="table-responsive rounded-3 overflow-hidden mb-4">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">Passenger Name</th>
+            <th scope="col">Seat Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let passenger of passengers; let i = index" class="text-center">
+            <td>{{ i + 1 }}</td>
+            <td>{{ passenger.passengerName || 'N/A' }}</td>
+            <td><span class="badge bg-secondary fs-6">{{ passenger.seatNo }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <div class="bg-light rounded-3 p-3 h-100">
+          <p class="mb-2"><strong>Price per Seat:</strong> ₹{{ pricePerSeat }}</p>
+          <p class="mb-0"><strong>Total Seats:</strong> {{ seats.length }}</p>
+        </div>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <div class="bg-light rounded-3 p-3 h-100">
+          <h5 class="mb-0"><strong>Total Amount:</strong> ₹{{ amount }}</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button
+        class="btn btn-lg btn-success px-3 py-2"
+        [disabled]="isPaying"
+        (click)="pay()"
+      >
+        <i class="fas fa-credit-card me-2"></i>
+        {{ isPaying ? 'Processing...' : 'Pay' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div class="container mt-5">
+  <div class="card shadow-lg p-4">
+    <h3 class="mb-4 text-center">
+      <i class="fas fa-receipt me-2"></i>Checkout Summary
+    </h3>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Passenger Name</th>
+            <th scope="col">Seat Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let passenger of passengers; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ passenger.passengerName || 'N/A' }}</td>
+            <td>{{ passenger.seatNo }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4 flex-wrap">
+      <div>
+        <p><strong>Price per Seat:</strong> ₹{{ pricePerSeat }}</p>
+        <p><strong>Total Seats:</strong> {{ seats.length }}</p>
+      </div>
+      <div class="text-end">
+        <h5><strong>Total Amount:</strong> ₹{{ amount }}</h5>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button
+        class="btn btn-success px-5 py-2"
+        [disabled]="isPaying"
+        (click)="pay()"
+      >
+        {{ isPaying ? 'Processing...' : 'Pay with Razorpay' }}
+      </button>
+    </div>
+  </div>
+</div> -->

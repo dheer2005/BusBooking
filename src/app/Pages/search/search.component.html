@@ -1,0 +1,167 @@
+<div class="container">
+  <header class="my-4">
+    <h1 class="text-center">Bus Booking System</h1>
+  </header>
+
+  <section>
+    <div class="container-fluid mt-5 d-flex justify-content-center">
+      <form class="search-form d-flex align-items-center shadow-lg">
+        <div class="row w-100 text-white">
+          <div class="col-md-3 d-flex align-items-center">
+            <div class="input-group">
+              <span class="input-group-text"
+                ><i class="fas fa-bus fs-4"></i></span>
+              <select
+                class="form-select"
+                name="fromLocation"
+                [(ngModel)]="serachObj.fromLocation"
+              >
+                <option value="" disabled selected>Source</option>
+                <ng-container *ngIf="locations$ | async as locations">
+                  <option
+                    *ngFor="let item of locations; index as i"
+                    [value]="item.locationId"
+                  >
+                    {{ item.locationName }}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+
+          <div
+            class="col-md-1 text-center d-flex align-items-center justify-content-center"
+          >
+            <i class="fa-solid fa-arrow-right-long fs-3"></i>
+          </div>
+
+          <div class="col-md-3 d-flex align-items-center">
+            <div class="input-group">
+              <span class="input-group-text"
+                ><i class="fas fa-bus fs-4"></i></span>
+              <select
+                class="form-select"
+                name="toLocation"
+                [(ngModel)]="serachObj.toLocation"
+              >
+                <option value="" disabled selected>Destination</option>
+                <ng-container *ngIf="locations$ | async as locations">
+                  <option
+                    *ngFor="let item of locations; index as i"
+                    [value]="item.locationId"
+                  >
+                    {{ item.locationName }}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3 d-flex align-items-center">
+            <div class="input-group">
+              <span class="input-group-text"
+                ><i class="fa-solid fa-calendar-alt me-1 text-muted fs-4"></i></span>
+              <input
+                type="date"
+                class="form-control"
+                [min]="[minDate]"
+                name="travelDate"
+                [(ngModel)]="serachObj.travelDate"
+                placeholder="Date"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-2 text-center">
+            <button
+              type="button"
+              class="btn btn-light text-danger w-100"
+              [disabled]="
+                !serachObj.fromLocation ||
+                !serachObj.toLocation ||
+                !serachObj.travelDate
+              "
+              (click)="onSearch()"
+            >
+              SEARCH BUSES
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="buses-list" class="my-5">
+    <h2 class="text-center mb-4">Available Buses</h2>
+
+    <div *ngIf="busList.length === 0" class="text-center">
+      <p class="py-5 text-muted" *ngIf="!emptyBusList">
+        Select From & To Location and Date to search for buses.
+      </p>
+      <p class="py-5 text-muted" *ngIf="emptyBusList && !showSpinner">
+        Buses not available for this Route.
+      </p>
+    </div>
+
+    <div class="w-100 d-flex justify-content-center align-items-center mt-4">
+      <div class="spinner text-center" *ngIf="showSpinner"></div>
+    </div>
+    <div *ngIf="!showSpinner">
+      <div *ngIf="busList.length > 0" class="row gy-4">
+        <div class="col-lg-6" *ngFor="let item of busList">
+          <div class="card shadow-sm h-100 border-1">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <h5 class="card-title mb-0 text-danger">{{ item.busName }}</h5>
+                  <small class="text-muted">{{ item.vendorName }}</small>
+                </div>
+                <div class="text-end">
+                  <span class="badge bg-warning text-dark fs-6">{{
+                    item.price | currency : "INR"
+                  }}</span>
+                  <div class="text-muted small">
+                    {{ item.availableSeats }} / {{ item.totalSeats }} Seats
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row text-center">
+                <div class="col">
+                  <strong>Departure</strong>
+                  <div>{{ item.departureTime | date : "hh:mm a" }}</div>
+                </div>
+                <div class="col">
+                  <strong>Arrival</strong>
+                  <div>{{ item.arrivalTime | date : "hh:mm a" }}</div>
+                  <small class="text-muted">{{
+                    item.arrivalTime | date : "dd MMM, yyyy"
+                  }}</small>
+                </div>
+                <div class="col">
+                  <strong>Duration</strong>
+                  <div>{{item.duration}}</div>
+                </div>
+                <div class="col">
+                  <strong>Ratings</strong>
+                  <div>⭐ {{item.averageRating}}</div>
+                  <small class="text-muted">{{item.ratingCount}} Reviews</small>
+                </div>
+              </div>
+  
+              <div class="text-end mt-4">
+                <button
+                  class="btn btn-outline-danger px-4"
+                  [routerLink]="['/booking', item.scheduleId]"
+                  [disabled]="!isBookingAllowed(item.departureTime)"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

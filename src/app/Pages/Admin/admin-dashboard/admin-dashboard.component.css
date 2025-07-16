@@ -1,0 +1,88 @@
+/* admin-dashboard.component.css */
+.card {
+  border: none;
+  border-radius: 0.75rem;
+}
+.card-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #555;
+}
+.display-4 {
+  font-size: 2.5rem;
+  color: #007bff;
+}
+
+.revenueCircle{
+  position: relative;
+}
+
+.revenueCircle>canvas{
+  margin-left: 100px;
+}
+
+
+.col-20 {
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0 10px;
+  transition: transform 0.3s ease;
+}
+
+.col-20:hover{
+  transform: translate(0px, -5px);
+}
+
+@media (max-width: 992px) {
+  .col-20 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 576px) {
+  .col-20 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.table-responsive {
+  scrollbar-width: thin;
+  scrollbar-color: #dee2e6 #f8f9fa;
+}
+
+.table-responsive::-webkit-scrollbar {
+  width: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: #adb5bd;
+  border-radius: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background-color: #f8f9fa;
+}
+
+.col-md-6{
+  transition: transform 0.3s ease;
+}
+
+.col-md-6:hover{
+  transform: translate(0px, -5px);
+}
+
+.spinner {
+   width: 11.2px;
+   height: 11.2px;
+   animation: spinner-z355kx 1s infinite linear;
+   border-radius: 11.2px;
+   box-shadow: 28px 0px 0 0 #474bff, 17.4px 21.8px 0 0 #474bff, -6.2px 27.2px 0 0 #474bff, -25.2px 12px 0 0 #474bff, -25.2px -12px 0 0 #474bff, -6.2px -27.2px 0 0 #474bff, 17.4px -21.8px 0 0 #474bff;
+}
+
+@keyframes spinner-z355kx {
+   to {
+      transform: rotate(360deg);
+   }
+}
