@@ -14,7 +14,7 @@
               <select
                 class="form-select"
                 name="fromLocation"
-                [(ngModel)]="serachObj.fromLocation"
+                [(ngModel)]="serachObj.fromLocationId"
               >
                 <option value="" disabled selected>Source</option>
                 <ng-container *ngIf="locations$ | async as locations">
@@ -42,7 +42,7 @@
               <select
                 class="form-select"
                 name="toLocation"
-                [(ngModel)]="serachObj.toLocation"
+                [(ngModel)]="serachObj.toLocationId"
               >
                 <option value="" disabled selected>Destination</option>
                 <ng-container *ngIf="locations$ | async as locations">
@@ -77,8 +77,8 @@
               type="button"
               class="btn btn-light text-danger w-100"
               [disabled]="
-                !serachObj.fromLocation ||
-                !serachObj.toLocation ||
+                !serachObj.fromLocationId ||
+                !serachObj.toLocationId ||
                 !serachObj.travelDate
               "
               (click)="onSearch()"
@@ -89,6 +89,11 @@
         </div>
       </form>
     </div>
+  </section>
+
+  <section class="container mb-5" *ngIf="showMap" >
+    <h4 class="text-center mb-3 text-muted">Map</h4>
+    <div id="map" style="height: 400px; width: 100%;" class="rounded shadow"></div>
   </section>
 
   <section id="buses-list" class="my-5">

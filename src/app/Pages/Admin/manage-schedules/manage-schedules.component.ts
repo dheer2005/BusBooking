@@ -93,7 +93,7 @@ export class ManageSchedulesComponent implements OnInit {
     });
 
     this.ms.getLocations().subscribe({
-      next: (res: LocationModel[]) => this.locations = res,
+      next: (res: LocationModel[]) => this.locations = res.sort((a,b)=>a.locationName.localeCompare(b.locationName)),
       error: err => this.toastrSvc.error('Error loading locations:', `${err}`)
     });
   }
@@ -139,7 +139,7 @@ export class ManageSchedulesComponent implements OnInit {
       departureTime: new Date(new Date(`${this.dto.travelDate}T${this.dto.departureTime}`).getTime()+19800000)
     }
     this.ms.addSchedule(this.dto).subscribe(() => {
-      this.toastrSvc.success("New Schedule added successfully", "Schedule");
+      this.toastrSvc.success("New Schedule created successfully", "Schedule");
       this.loadAll();
       this.resetDto();
     });

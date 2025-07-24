@@ -41,7 +41,9 @@
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h5 class="text-success mb-0">🚌 {{ booking.busName }}</h5>
-          <span class="badge bg-secondary">Schedule #{{ booking.scheduleId }}</span>
+          <button class="btn btn-outline-primary" (click)="downloadTicket(booking.bookingId)">
+            <i class="fas fa-download me-1"></i>Download Ticket
+          </button>
         </div>
   
         <p class="mb-2">
@@ -69,6 +71,7 @@
           <strong>Total Amount:</strong> ₹{{ booking.totalAmount }}
         </div>
         <div>
+          
           <button *ngIf="!booking.isCompleted && isBookingAllowed(booking.departureTime)" class="btn btn-outline-danger btn-sm" (click)="cancelBooking(booking.bookingId)">
             <i class="fa-solid fa-xmark me-1"></i> Cancel Booking
           </button>

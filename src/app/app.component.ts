@@ -2,6 +2,7 @@ import { Component, Inject, inject } from '@angular/core';
 import { MasterService } from './Service/master.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,9 @@ export class AppComponent {
   isLoginForm = true;
 
   registerObj = { userName: '', fullName: '', emailId: '', role: 'User', password: '' };
-  loginObj    = { emailId: '', password: '' };
+  loginObj   = { emailId: '', password: '' };
 
-  constructor(private masterSrv: MasterService, private router: Router) {
+  constructor(private masterSrv: MasterService, private router: Router, private toastrSvc: ToastrService) {
     const user = localStorage.getItem('redBusUser');
     if (user) this.loggedUserData = JSON.parse(user);
   }
@@ -29,26 +30,30 @@ export class AppComponent {
         this.loggedUserData = { ...res, role: 'User' };
         localStorage.setItem('redBusUser', JSON.stringify(this.loggedUserData));
       },
-      error: () => alert('Registration failed')
+      error: () => this.toastrSvc.error('Registration failed','Failed')
     });
   }
 
   onLogin() {
     this.masterSrv.loginUser(this.loginObj).subscribe({
       next: (res) => {
-        this.loggedUserData = res; // must include role
-        console.log("User roles: ", res);
+        this.loggedUserData = res; 
         localStorage.setItem('redBusUser', JSON.stringify(res));
         if (this.isAdmin) this.router.navigate(['/admin/dashboard']);
         else this.router.navigate(['/search']);
       },
-      error: () => alert('Invalid credentials')
+      error: () => {
+        this.loginObj.emailId = '';
+        this.loginObj.password = '';
+        this.toastrSvc.error('Invalid credentials','Invalid');
+      }
     });
   }
 
   logoff() {
     localStorage.removeItem('redBusUser');
     this.loggedUserData = null;
+    this.toastrSvc.error("User logged out", "Log off");
     this.router.navigate(['/search']);
   }
 }

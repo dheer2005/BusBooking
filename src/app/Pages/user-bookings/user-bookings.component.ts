@@ -75,12 +75,25 @@ export class UserBookingsComponent implements OnInit {
     if (confirm('Are you sure you want to cancel this booking?')) {
       this.masterService.cancelBooking(id).subscribe({
         next: () => {
-          this.toastrSvc.error('Booking cancelled','Booking');
+          this.toastrSvc.success('Booking cancelled','Booking');
           this.userBookings = this.userBookings.filter(b => b.bookingId !== id);
         },
         error: (err) => alert(err.error)
       });
     }
+  }
+
+  downloadTicket(bookingId: number){
+    this.masterService.downloadTicket(bookingId).subscribe(blob=>{
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Ticket_${bookingId}.pdf`;
+      link.click();
+    },
+    err=>{
+      this.toastrSvc.error('Failed to download ticket.', 'Error');
+    }
+  )
   }
 
   rateBus(booking: BookingResponseDTO) {

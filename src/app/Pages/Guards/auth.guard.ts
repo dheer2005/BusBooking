@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
 
     const targetUrl = state.url;
     if (role === 'Admin') {
-      if (targetUrl.startsWith('/my-bookings') || targetUrl.startsWith('/checkout') || targetUrl.startsWith('/rate-bus')) {
+      if (targetUrl.startsWith('/my-bookings') || targetUrl.startsWith('/checkout') || targetUrl.startsWith('/rate-bus') || targetUrl.startsWith('/search')) {
         return this.router.parseUrl('/admin/dashboard');
       }
       return true;

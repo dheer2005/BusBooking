@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { delay, map, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BookingResponseDTO } from '../DTO/booking-response.model';
 import { Bus } from '../Models/bus.model';
@@ -142,5 +142,38 @@ export class MasterService {
     return this.http.get<string[]>(`/location/location-cities`);
   }
 
+  downloadTicket(bookingId: number) {
+    return this.http.get(`${this.apiURl}/Booking/ticket/${bookingId}`, {
+      responseType: 'blob'
+    });
+  }
+
+  // getCoordinates(fromId: string, toId: string): Observable<any> {
+  //   const mockLocations: any = {
+  //     '1': [26.9124, 75.7873], // Jaipur
+  //     '2': [28.7041, 77.1025], // Delhi
+  //     '3': [19.076, 72.8777],  // Mumbai
+  //     '4': [13.0827, 80.2707],  // Chennai
+  //     '5': [28.7041, 77.1025] // delhi
+  //   };
+
+  //   return of({
+  //     from: mockLocations[fromId],
+  //     to: mockLocations[toId]
+  //   });
+  // }
+
+  getCoordinates(locationName: string): Observable<[number, number]> {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationName)}&limit=1`;
+    return this.http.get<any[]>(url).pipe(
+      map(results => {
+        if (!results || results.length === 0) {
+          throw new Error(`No results found for location: ${locationName}`);
+        }
+        const location = results[0];
+        return [parseFloat(location.lat), parseFloat(location.lon)];
+      })
+    );
+  }
 
 }
