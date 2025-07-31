@@ -13,6 +13,10 @@ export class AppComponent {
   loggedUserData: any = null;
   isLoginForm = true;
 
+  timerCount = 0;
+  isLoginBlocked = false;
+  private interval: any;
+
   registerObj = { userName: '', fullName: '', emailId: '', role: 'User', password: '' };
   loginObj   = { emailId: '', password: '' };
 
@@ -24,6 +28,7 @@ export class AppComponent {
   get isAdmin()    { return this.loggedUserData?.role === 'Admin'; }
   get isLoggedIn() { return !!this.loggedUserData; }
 
+
   onRegister() {
     this.masterSrv.onRegisterUser(this.registerObj).subscribe({
       next: (res) => {
@@ -34,6 +39,19 @@ export class AppComponent {
     });
   }
 
+  startRateLimitTimer() {
+    this.isLoginBlocked = true;
+    this.timerCount = 60;
+
+    this.interval = setInterval(() => {
+      this.timerCount--;
+      if (this.timerCount <= 0) {
+        clearInterval(this.interval);
+        this.isLoginBlocked = false;
+      }
+    }, 1000);
+  }
+
   onLogin() {
     this.masterSrv.loginUser(this.loginObj).subscribe({
       next: (res) => {
@@ -42,10 +60,16 @@ export class AppComponent {
         if (this.isAdmin) this.router.navigate(['/admin/dashboard']);
         else this.router.navigate(['/search']);
       },
-      error: () => {
+      error: (err:any) => {
+        console.log(err);
         this.loginObj.emailId = '';
         this.loginObj.password = '';
-        this.toastrSvc.error('Invalid credentials','Invalid');
+        if(err.status == 429){
+          this.toastrSvc.error('API calls quota exceeded! maximum admitted 3 requests per 1 minute.','Re-try after 1 minute')
+          this.startRateLimitTimer();
+          return;
+        }
+        this.toastrSvc.error('Wrong credentials','Invalid');
       }
     });
   }

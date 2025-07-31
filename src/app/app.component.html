@@ -72,7 +72,10 @@
             <input type="password" name="password" [(ngModel)]="loginObj.password" class="form-control">
           </div>
           <button type="button" class="btn btn-primary w-100" (click)="onLogin()"
-                  data-bs-dismiss="modal">Sign In</button>
+                  data-bs-dismiss="modal" [disabled]="isLoginBlocked">Sign In</button>
+          <div *ngIf="isLoginBlocked" style="color: red; margin-top: 5px;">
+            Please wait {{ timerCount }} seconds before retrying.
+          </div>
           <div class="text-center mt-2">
             <a (click)="isLoginForm = false">Not a member? Register</a>
           </div>

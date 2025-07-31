@@ -13,7 +13,8 @@ import { PaymentDTO } from '../DTO/payment.dto';
 })
 export class MasterService {
 
-  apiURl: string = 'https://localhost:7044/api';
+  // apiURl: string = 'https://localhost:7044/api';
+  apiURl: string = 'https://BusBooking001.bsite.net/';
 
 
   constructor(private http: HttpClient) { }
@@ -139,7 +140,7 @@ export class MasterService {
   }
 
   getLocationCities() {
-    return this.http.get<string[]>(`/location/location-cities`);
+    return this.http.get<string[]>(`${this.apiURl}/location/location-cities`);
   }
 
   downloadTicket(bookingId: number) {
@@ -147,21 +148,6 @@ export class MasterService {
       responseType: 'blob'
     });
   }
-
-  // getCoordinates(fromId: string, toId: string): Observable<any> {
-  //   const mockLocations: any = {
-  //     '1': [26.9124, 75.7873], // Jaipur
-  //     '2': [28.7041, 77.1025], // Delhi
-  //     '3': [19.076, 72.8777],  // Mumbai
-  //     '4': [13.0827, 80.2707],  // Chennai
-  //     '5': [28.7041, 77.1025] // delhi
-  //   };
-
-  //   return of({
-  //     from: mockLocations[fromId],
-  //     to: mockLocations[toId]
-  //   });
-  // }
 
   getCoordinates(locationName: string): Observable<[number, number]> {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationName)}&limit=1`;

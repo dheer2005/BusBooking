@@ -8,7 +8,9 @@ import { RazorpayResponse } from '../DTO/razorpayResponse.dto';
 })
 export class PaymentService {
 
-  apiUrl = `https://localhost:7044/api`
+  // apiUrl = `https://localhost:7044/api`;
+  apiUrl = `https://BusBooking001.bsite.net/`;
+
   constructor(private http: HttpClient) { }
 
   createOrder(amount:number){
