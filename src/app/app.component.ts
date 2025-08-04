@@ -55,6 +55,7 @@ export class AppComponent {
   onLogin() {
     this.masterSrv.loginUser(this.loginObj).subscribe({
       next: (res) => {
+        this.toastrSvc.success("Login Successfull", "Login");
         this.loggedUserData = res; 
         localStorage.setItem('redBusUser', JSON.stringify(res));
         if (this.isAdmin) this.router.navigate(['/admin/dashboard']);
