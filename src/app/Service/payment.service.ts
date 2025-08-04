@@ -9,7 +9,7 @@ import { RazorpayResponse } from '../DTO/razorpayResponse.dto';
 export class PaymentService {
 
   // apiUrl = `https://localhost:7044/api`;
-  apiUrl = `https://BusBooking001.bsite.net/`;
+  apiUrl = `https://BusBooking001.bsite.net/api`;
 
   constructor(private http: HttpClient) { }
 
