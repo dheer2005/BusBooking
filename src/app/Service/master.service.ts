@@ -14,7 +14,7 @@ import { PaymentDTO } from '../DTO/payment.dto';
 export class MasterService {
 
   // apiURl: string = 'https://localhost:7044/api';
-  apiURl: string = 'https://BusBooking001.bsite.net/';
+  apiURl: string = 'https://BusBooking001.bsite.net/api';
 
 
   constructor(private http: HttpClient) { }
