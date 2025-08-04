@@ -50,7 +50,7 @@ export class MasterService {
   }
 
   getUserBookings(userId: number) {
-    return this.http.get<BookingResponseDTO[]>(`https://localhost:7044/api/Booking/User/${userId}`);
+    return this.http.get<BookingResponseDTO[]>(`${this.apiURl}/Booking/User/${userId}`);
   }
 
   getBuses() {
